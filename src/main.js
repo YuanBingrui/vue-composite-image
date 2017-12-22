@@ -2,11 +2,15 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import { Button } from 'element-ui'
+import { Button, Input, Upload } from 'element-ui'
+import VueI18n from 'vue-i18n'
 
 Vue.config.productionTip = false
+Vue.use(VueI18n)
 
 Vue.use(Button)
+Vue.use(Input)
+Vue.use(Upload)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
