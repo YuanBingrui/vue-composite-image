@@ -1,21 +1,21 @@
 <template>
   <div class="container">
     <div class="handleBtnBox">
-      宽度：
+      {{ $t('imgWidth') }}：
       <el-input
         class="sizeInput"
         placeholder="e.g.:150"
         v-model="imgWidth"
         clearable>
       </el-input>
-      高度：
+      {{ $t('imgHeight') }}：
       <el-input
         class="sizeInput"
         placeholder="e.g.:300"
         v-model="imgHeight"
         clearable>
       </el-input>
-      图片名：
+      {{ $t('fileName') }}：
       <el-input
         class="inputStyle"
         placeholder="e.g.:elevater.png"
@@ -25,23 +25,23 @@
       <el-button 
         type="primary" 
         @click="saveImageInfo">
-        保存图片
+        {{ $t('saveImgBtn') }}
       </el-button>
       <el-button
         type="primary"
         @click="saveAsLocalImage">
-        下载图片
+        {{ $t('downloadImgBtn') }}
       </el-button>
     </div>
     <div class="showImgBox">
       <div class="boxHeader thumbnailBox">
-        <h1>缩略图</h1>
+        <h1>{{ $t('thumbnailPic') }}</h1>
       </div>
       <div class="boxHeader canvasBox">
-        <h1>画布</h1>
+        <h1>{{ $t('canvas') }}</h1>
       </div>
       <div class="boxHeader compositeBox">
-        <h1>合成图</h1>
+        <h1>{{ $t('compositePic') }}</h1>
       </div>
     </div>
     <div class="showImgBox">
@@ -80,6 +80,7 @@ export default {
   name: 'CompositeImage',
   data () {
     return {
+      lang: 'zh-CN',
       thumbnailImg: [{id: 'car', src: '../../static/VC01.png'}, {id: 'ceilling', src: '../../static/DD06A.png'}, {id: 'floor', src: '../../static/DF106.png'}, {id: 'controlBox', src: '../../static/CC102.png'}],
       imgWidth: '',
       imgHeight: '',
@@ -89,6 +90,9 @@ export default {
       ctx: '',
       canvasImgArr: []
     }
+  },
+  created () {
+    this.lang = localStorage.lang || 'zh-CN';
   },
   mounted () {
     this.draw()
