@@ -13,6 +13,10 @@
   width: 20% !important;
   margin-right: 10px;
 }
+.sizeInput{
+  width: 10% !important;
+  margin-right: 10px;
+}
 .showImgBox{
   display: flex;
   flex-direction: row;

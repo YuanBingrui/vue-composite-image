@@ -1,9 +1,24 @@
 <template>
   <div class="container">
     <div class="handleBtnBox">
+      宽度：
+      <el-input
+        class="sizeInput"
+        placeholder="e.g.:150"
+        v-model="imgWidth"
+        clearable>
+      </el-input>
+      高度：
+      <el-input
+        class="sizeInput"
+        placeholder="e.g.:300"
+        v-model="imgHeight"
+        clearable>
+      </el-input>
+      图片名：
       <el-input
         class="inputStyle"
-        placeholder="请输入文件名e.g.:elevater.png"
+        placeholder="e.g.:elevater.png"
         v-model="fileName"
         clearable>
       </el-input>
@@ -46,11 +61,15 @@
       </div>
       <div class="boxSize canvasBox">
         <canvas ref="canvas" width="150" height="300"></canvas>
+        <canvas ref="reCanvas" style="display: none;"></canvas>
       </div>
       <div class="boxSize compositeBox">
         <a href="" download="elevater" ref="linkDown">
           <img src="" ref="downImg">
         </a>
+        <!-- <a href="" download="elevater" ref="reLinkDown" style="display: none;">
+          <img src="" ref="reDownImg">
+        </a> -->
       </div>
     </div>
   </div>
@@ -62,10 +81,13 @@ export default {
   data () {
     return {
       thumbnailImg: [{id: 'car', src: '../../static/VC01.png'}, {id: 'ceilling', src: '../../static/DD06A.png'}, {id: 'floor', src: '../../static/DF106.png'}, {id: 'controlBox', src: '../../static/CC102.png'}],
+      imgWidth: '',
+      imgHeight: '',
       fileName: '',
       dialogImageUrl: '',
       canvas: '',
-      ctx: ''
+      ctx: '',
+      canvasImgArr: []
     }
   },
   mounted () {
@@ -77,14 +99,23 @@ export default {
       this.ctx = this.canvas.getContext('2d')
     },
     saveImageInfo: function() {
-      let mycanvas = this.$refs.canvas
-      let image = mycanvas.toDataURL("image/png")
-      this.$refs.linkDown.href = image
-      this.$refs.downImg.src = image
+      // if(this.imgHeight || this.imgWidth){
+      //   let reImage = this.reDraw().toDataURL("image/png")
+      //   this.$refs.reLinkDown.href = reImage
+      //   this.$refs.reDownImg.src = reImage
+      // }else{
+        let image = this.canvas.toDataURL("image/png")
+        this.$refs.linkDown.href = image
+        this.$refs.downImg.src = image
+      // }
     },
     saveAsLocalImage: function() {
-      let myCanvas = this.$refs.canvas
-      let image = myCanvas.toDataURL("image/png").replace("image/png", "image/octet-stream")
+      let image
+      if(this.imgHeight || this.imgWidth){
+        image = this.reDraw().toDataURL("image/png").replace("image/png", "image/octet-stream")
+      }else{
+        image = this.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream")
+      }
       let save_link = this.$parent.$el.ownerDocument.createElementNS('http://www.w3.org/1999/xhtml', 'a')
       save_link.href = image
       save_link.download = this.fileName ? this.fileName : 'elevater.png'
@@ -100,9 +131,21 @@ export default {
       let img = new Image()
       img.src = file.url
       this.ctx.drawImage(img, 0, 0, 150, 300)
+      this.canvasImgArr.push(img)
     },
     selectedImg: function(index) {
       this.ctx.drawImage(this.$refs.images[index], 0, 0, 150, 300)
+      this.canvasImgArr.push(this.$refs.images[index])
+    },
+    reDraw: function() {
+      let reCanvas = this.$refs.reCanvas
+      reCanvas.setAttribute('width',this.imgWidth ? this.imgWidth : this.imgHeight/2);
+      reCanvas.setAttribute('height',this.imgHeight ? this.imgHeight : this.imgWidth*2);
+      let rectx = reCanvas.getContext('2d')
+      for (let i = 0; i < this.canvasImgArr.length; i++) {
+        rectx.drawImage(this.canvasImgArr[i], 0, 0, this.imgWidth ? this.imgWidth : this.imgHeight/2, this.imgHeight ? this.imgHeight : this.imgWidth*2)
+      }
+      return reCanvas
     }
   }
 }
