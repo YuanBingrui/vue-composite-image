@@ -1,6 +1,6 @@
 export default {
     'zh-CN': {
-        switchLangTitle: '切换语言',
+        switchLangTitle: '简体中文',
         imgWidth: '宽度',
         imgHeight: '高度',
         fileName: '图片名',
@@ -11,7 +11,7 @@ export default {
         compositePic: '合成图'
     },
     'zh-TW': {
-        switchLangTitle: '切換語言',
+        switchLangTitle: '繁体中文',
         imgWidth: '寬度',
         imgHeight: '高度',
         fileName: '圖片名',
@@ -21,8 +21,8 @@ export default {
         canvas: '畫布',
         compositePic: '合成圖'
     },
-    'en': {
-        switchLangTitle: 'Switch Lang',
+    'en-US': {
+        switchLangTitle: 'EN',
         imgWidth: 'Width',
         imgHeight: 'Height',
         fileName: 'Picture Name',

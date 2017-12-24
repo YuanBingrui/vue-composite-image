@@ -1,5 +1,20 @@
 <template>
   <div class="container">
+    <div class="switchLangBox">
+      <el-dropdown 
+        @command="switchLang"
+        size="mini">
+        <span class="el-dropdown-link">
+          EN<i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <template
+          v-for="lang in langList">
+            <el-dropdown-item :command="lang.key">{{lang.value}}</el-dropdown-item>
+          </template>
+        </el-dropdown-menu>
+      </el-dropdown>
+    </div>
     <div class="handleBtnBox">
       {{ $t('imgWidth') }}：
       <el-input
@@ -46,8 +61,12 @@
     </div>
     <div class="showImgBox">
       <div class="boxSize boxSizeT thumbnailBox">
-        <template v-for="(imgone, index) in thumbnailImg">
-          <img :src="imgone.src" :id="imgone.id" ref="images" @click="selectedImg(index)">
+        <template
+          v-for="(imgone, index) in thumbnailImg">
+          <img 
+            :src="imgone.src"
+            :id="imgone.id" ref="images"
+            @click="selectedImg(index)">
         </template>
         <el-upload
           action=""
@@ -67,9 +86,6 @@
         <a href="" download="elevater" ref="linkDown">
           <img src="" ref="downImg">
         </a>
-        <!-- <a href="" download="elevater" ref="reLinkDown" style="display: none;">
-          <img src="" ref="reDownImg">
-        </a> -->
       </div>
     </div>
   </div>
@@ -80,19 +96,15 @@ export default {
   name: 'CompositeImage',
   data () {
     return {
-      lang: 'zh-CN',
+      langList: [{ key: 'zh', value: '简体中文' }, { key: 'tw', value: '繁体中文' }, { key: 'en', value: 'EN' }],
       thumbnailImg: [{id: 'car', src: '../../static/VC01.png'}, {id: 'ceilling', src: '../../static/DD06A.png'}, {id: 'floor', src: '../../static/DF106.png'}, {id: 'controlBox', src: '../../static/CC102.png'}],
       imgWidth: '',
       imgHeight: '',
       fileName: '',
-      dialogImageUrl: '',
       canvas: '',
       ctx: '',
       canvasImgArr: []
     }
-  },
-  created () {
-    this.lang = localStorage.lang || 'zh-CN';
   },
   mounted () {
     this.draw()
@@ -103,15 +115,9 @@ export default {
       this.ctx = this.canvas.getContext('2d')
     },
     saveImageInfo: function() {
-      // if(this.imgHeight || this.imgWidth){
-      //   let reImage = this.reDraw().toDataURL("image/png")
-      //   this.$refs.reLinkDown.href = reImage
-      //   this.$refs.reDownImg.src = reImage
-      // }else{
-        let image = this.canvas.toDataURL("image/png")
-        this.$refs.linkDown.href = image
-        this.$refs.downImg.src = image
-      // }
+      let image = this.canvas.toDataURL("image/png")
+      this.$refs.linkDown.href = image
+      this.$refs.downImg.src = image
     },
     saveAsLocalImage: function() {
       let image
@@ -150,6 +156,9 @@ export default {
         rectx.drawImage(this.canvasImgArr[i], 0, 0, this.imgWidth ? this.imgWidth : this.imgHeight/2, this.imgHeight ? this.imgHeight : this.imgWidth*2)
       }
       return reCanvas
+    },
+    switchLang: function(command) {
+      this.$i18n.locale = command
     }
   }
 }

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import CompositeImage from './components/composite-image'
+import CompositeImage from './components/composite-image/composite-image'
 
 export default {
   name: 'app',

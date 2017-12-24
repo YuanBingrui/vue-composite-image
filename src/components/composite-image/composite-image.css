@@ -2,6 +2,10 @@
   width: 90%;
   margin: auto;
 }
+.switchLangBox{
+  text-align: right;
+  margin: 10px;
+}
 .handleBtnBox{
   height: 50px;
   width: 100%;
