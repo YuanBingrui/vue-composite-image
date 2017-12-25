@@ -5,7 +5,7 @@
         @command="switchLang"
         size="mini">
         <span class="el-dropdown-link">
-          EN<i class="el-icon-arrow-down el-icon--right"></i>
+          {{lang}}<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
           <template
@@ -96,6 +96,7 @@ export default {
   name: 'CompositeImage',
   data () {
     return {
+      lang: this.$i18n.locale,
       langList: [{ key: 'zh', value: '简体中文' }, { key: 'tw', value: '繁体中文' }, { key: 'en', value: 'EN' }],
       thumbnailImg: [{id: 'car', src: '../../static/VC01.png'}, {id: 'ceilling', src: '../../static/DD06A.png'}, {id: 'floor', src: '../../static/DF106.png'}, {id: 'controlBox', src: '../../static/CC102.png'}],
       imgWidth: '',
@@ -107,6 +108,7 @@ export default {
     }
   },
   mounted () {
+    this.initLang(this.lang)
     this.draw()
   },
   methods: {
@@ -133,11 +135,11 @@ export default {
       event.initMouseEvent('click',true,false,window,0,0,0,0,0,false,false,false,false,0,null)
       save_link.dispatchEvent(event)
     },
-    handleRemove(file, fileList) {
+    handleRemove: function(file, fileList) {
       console.log(file)
       console.log(fileList)
     },
-    handlePictureCardPreview(file) {
+    handlePictureCardPreview: function(file) {
       let img = new Image()
       img.src = file.url
       this.ctx.drawImage(img, 0, 0, 150, 300)
@@ -159,6 +161,14 @@ export default {
     },
     switchLang: function(command) {
       this.$i18n.locale = command
+      this.initLang(command)
+    },
+    initLang: function(command) {
+      this.langList.map(one => {
+        if(one.key === command){
+          this.lang = one.value
+        }
+      })
     }
   }
 }
