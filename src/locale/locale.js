@@ -6,6 +6,7 @@ export default {
         fileName: '图片名',
         saveImgBtn: '保存图片',
         downloadImgBtn: '下载图片',
+        clearCanvasBtn: '清空画布',
         thumbnailPic: '缩略图',
         canvas: '画布',
         compositePic: '合成图'
@@ -17,6 +18,7 @@ export default {
         fileName: '圖片名',
         saveImgBtn: '保存圖片',
         downloadImgBtn: '下載圖片',
+        clearCanvasBtn: '清空畫布',
         thumbnailPic: '縮略圖',
         canvas: '畫布',
         compositePic: '合成圖'
@@ -28,6 +30,7 @@ export default {
         fileName: 'Picture Name',
         saveImgBtn: 'Save',
         downloadImgBtn: 'Download',
+        clearCanvasBtn: 'Clear',
         thumbnailPic: 'Thumbnail',
         canvas: 'Canvas',
         compositePic: 'Compositing'

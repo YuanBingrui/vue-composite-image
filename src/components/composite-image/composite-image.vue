@@ -47,6 +47,11 @@
         @click="saveAsLocalImage">
         {{ $t('downloadImgBtn') }}
       </el-button>
+      <el-button
+        type="primary"
+        @click="clearCanvas">
+        {{ $t('clearCanvasBtn') }}
+      </el-button>
     </div>
     <div class="showImgBox">
       <div class="boxHeader thumbnailBox">
@@ -141,7 +146,7 @@ export default {
     },
     handlePictureCardPreview: function(file) {
       let img = new Image()
-      img.src = file.url
+      img.src = this.changeImgSize(file.url)
       this.ctx.drawImage(img, 0, 0, 150, 300)
       this.canvasImgArr.push(img)
     },
@@ -169,6 +174,22 @@ export default {
           this.lang = one.value
         }
       })
+    },
+    changeImgSize(tempUrl){
+
+      let tempCanvas = this.$parent.$el.ownerDocument.createElement('canvas');
+      let tempCtx = tempCanvas.getContext('2d'); 
+      tempCanvas.width = 1000;
+      tempCanvas.height = 2000;
+
+      let tempImg = new Image();
+      tempImg.src = tempUrl;
+      tempCtx.drawImage(tempImg, 0, 0, tempCanvas.width, tempCanvas.height);
+
+      return tempCanvas.toDataURL("image/png");
+    },
+    clearCanvas(){
+      this.canvas.height = this.canvas.height;
     }
   }
 }
